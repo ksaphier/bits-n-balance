@@ -1,0 +1,29 @@
+/* Tema del blog "finanzas" — editorial, serio, verde. Igual al blog-financiero original. */
+html[data-blog="finanzas"] {
+	--font-heading: Georgia, "Times New Roman", serif;
+	--font-content: Georgia, "Times New Roman", serif;
+	--radius-card: 0.75rem;
+	--hero-padding: 7rem 0 6rem;
+	--background: #f7f6f1;
+	--text: #1d2a25;
+	--text-secondary: #43524b;
+	--text-muted: #5c6a63;
+	--text-subtle: #748078;
+	--accent: #2d654b;
+	--accent-strong: #1f4a37;
+	--border: #cfd6d0;
+	--border-soft: #e3e7e1;
+	--surface-hover: #eef2ec;
+}
+html[data-blog="finanzas"][data-theme="dark"] {
+	--background: #151b18;
+	--text: #e8eee9;
+	--text-secondary: #b4c0ba;
+	--text-muted: #9ba8a1;
+	--text-subtle: #909d96;
+	--accent: #83c5a5;
+	--accent-strong: #a8d9be;
+	--border: #39443e;
+	--border-soft: #303a35;
+	--surface-hover: #202a25;
+}

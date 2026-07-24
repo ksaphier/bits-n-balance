@@ -1,0 +1,29 @@
+/* Tema del blog "recetas" — cálido, acogedor, terracota. */
+html[data-blog="recetas"] {
+	--font-heading: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+	--font-content: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+	--radius-card: 1.25rem;
+	--hero-padding: 5.5rem 0 5rem;
+	--background: #fbf1e6;
+	--text: #2c2018;
+	--text-secondary: #5a493c;
+	--text-muted: #75665a;
+	--text-subtle: #8f8175;
+	--accent: #c1502e;
+	--accent-strong: #96371b;
+	--border: #e6d5c3;
+	--border-soft: #f0e2d2;
+	--surface-hover: #f5e8d9;
+}
+html[data-blog="recetas"][data-theme="dark"] {
+	--background: #201811;
+	--text: #f1e6da;
+	--text-secondary: #d4c3b3;
+	--text-muted: #b8a794;
+	--text-subtle: #a89686;
+	--accent: #e08a5c;
+	--accent-strong: #f0ad82;
+	--border: #4a3b2d;
+	--border-soft: #3a2e23;
+	--surface-hover: #2c2318;
+}
