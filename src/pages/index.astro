@@ -61,18 +61,19 @@ const blogs = [...counts.entries()]
 
 <style>
 	.home-nav span { color: var(--text-muted); font-size: 0.85rem; }
-	.home-shell { width: min(100% - 3rem, 1160px); margin: 0 auto; }
-	.hero { padding: var(--hero-padding); border-bottom: 1px solid var(--border-soft); }
-	.hero h1 { max-width: 900px; margin: 0; font-family: var(--font-heading); font-size: clamp(4rem, 11vw, 8.6rem); line-height: 0.86; letter-spacing: -0.07em; }
+	.home-shell { width: min(100% - 2rem, 1160px); margin: 0 auto; }
+	.hero { padding: 4.5rem 0; border-bottom: 1px solid var(--border-soft); }
+	.hero h1 { max-width: 900px; margin: 0; overflow-wrap: anywhere; font-family: var(--font-heading); font-size: clamp(3rem, 16vw, 8.6rem); line-height: 0.86; letter-spacing: -0.07em; }
 	.hero > p:last-child { max-width: 600px; margin: 2.3rem 0 0 auto; color: var(--text-secondary); font-size: 1.15rem; }
 	.blogs { padding: 5rem 0 7rem; }
-	.blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+	.blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 1.5rem; }
 	.blog-card { display: block; padding: 2rem; border: 1px solid var(--border); border-radius: var(--radius-card); text-decoration: none; transition: background-color 160ms ease, border-color 160ms ease; }
 	.blog-card:hover { background: var(--surface-hover); border-color: var(--text-subtle); }
 	.blog-card h2 { margin: 0 0 0.8rem; font-family: var(--font-heading); font-size: 2rem; line-height: 1.08; }
 	.blog-card p { margin: 0; color: var(--text-secondary); font-size: 0.92rem; }
 	.blog-card .read-more { display: inline-block; margin-top: 1.4rem; color: var(--accent); font-size: 0.86rem; font-weight: 700; }
-	@media (max-width: 720px) {
-		.hero { padding: 4.5rem 0; }
+	@media (min-width: 721px) {
+		.home-shell { width: min(100% - 3rem, 1160px); }
+		.hero { padding: var(--hero-padding); }
 	}
 </style>

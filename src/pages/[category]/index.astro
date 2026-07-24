@@ -80,28 +80,28 @@ const formatDate = (date: Date | string) => new Intl.DateTimeFormat('es-CL', {
 <style>
 	.home-nav span { color: var(--text-muted); font-size: 0.85rem; }
 	.home-nav .back-link { font-size: 0.85rem; }
-	.home-shell { width: min(100% - 3rem, 1160px); margin: 0 auto; }
-	.hero { padding: var(--hero-padding); border-bottom: 1px solid var(--border-soft); }
-	.hero h1 { max-width: 900px; margin: 0; font-family: var(--font-heading); font-size: clamp(4rem, 11vw, 8.6rem); line-height: 0.86; letter-spacing: -0.07em; }
+	.home-shell { width: min(100% - 2rem, 1160px); margin: 0 auto; }
+	.hero { padding: 4.5rem 0; border-bottom: 1px solid var(--border-soft); }
+	.hero h1 { max-width: 900px; margin: 0; overflow-wrap: anywhere; font-family: var(--font-heading); font-size: clamp(3rem, 16vw, 8.6rem); line-height: 0.86; letter-spacing: -0.07em; }
 	.hero > p:last-child { max-width: 600px; margin: 2.3rem 0 0 auto; color: var(--text-secondary); font-size: 1.15rem; }
 	.articles { padding: 5rem 0 7rem; }
 	.section-heading { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 2rem; }
 	.section-heading h2 { margin: 0; font-size: 1.1rem; }
 	.section-heading span { color: var(--text-subtle); font-size: 0.85rem; }
-	.post-grid { display: grid; grid-template-columns: repeat(2, 1fr); border-top: 1px solid var(--border); }
+	.post-grid { display: grid; grid-template-columns: minmax(0, 1fr); border-top: 1px solid var(--border); }
 	.post-card { display: grid; grid-template-columns: 3rem 1fr; gap: 1rem; padding: 2.2rem 2rem 2.4rem 0; border-bottom: 1px solid var(--border); text-decoration: none; transition: background-color 160ms ease; }
-	.post-card:nth-child(odd) { border-right: 1px solid var(--border); }
-	.post-card:nth-child(even) { padding-left: 2rem; }
+	.post-card > div:last-child { min-width: 0; }
 	.post-card:hover { background: var(--surface-hover); }
 	.post-number, .post-date { color: var(--text-subtle); font-size: 0.75rem; }
 	.post-date { margin: 0 0 0.8rem; text-transform: uppercase; }
 	.post-card h3 { margin: 0 0 0.8rem; font-family: var(--font-heading); font-size: 2rem; line-height: 1.08; }
 	.post-card p:not(.post-date) { margin: 0; color: var(--text-secondary); font-size: 0.92rem; }
 	.read-more { display: inline-block; margin-top: 1.4rem; color: var(--accent); font-size: 0.86rem; font-weight: 700; }
-	@media (max-width: 720px) {
-		.hero { padding: 4.5rem 0; }
-		.post-grid { grid-template-columns: 1fr; }
-		.post-card:nth-child(odd) { border-right: 0; }
-		.post-card:nth-child(even) { padding-left: 0; }
+	@media (min-width: 721px) {
+		.home-shell { width: min(100% - 3rem, 1160px); }
+		.hero { padding: var(--hero-padding); }
+		.post-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+		.post-card:nth-child(odd) { border-right: 1px solid var(--border); }
+		.post-card:nth-child(even) { padding-left: 2rem; }
 	}
 </style>

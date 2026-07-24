@@ -10,6 +10,8 @@ tags: ["proteina", "aminoacido", "musculos"]
 
 Las proteínas son uno de los nutrientes esenciales que nuestro cuerpo necesita para funcionar correctamente. Están formadas por pequeñas unidades llamadas **aminoácidos**, que actúan como piezas de construcción para diferentes tejidos y sustancias del organismo.
 
+![pretein](protein.png)
+
 ## ¿Para qué sirven?
 
 Aunque suelen asociarse principalmente con los músculos, las proteínas cumplen muchas otras funciones importantes:
