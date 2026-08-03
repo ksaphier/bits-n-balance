@@ -1,64 +1,85 @@
 ---
-import '../styles/global.css';
-import ThemeToggle from '../components/ThemeToggle.astro';
-import { categoryMeta } from '../lib/categories';
+import "../styles/global.css";
+import ThemeToggle from "../components/ThemeToggle.astro";
+import { categoryMeta } from "../lib/categories";
 
 interface Props {
-	frontmatter: {
-		title: string;
-		description: string;
-		pubDate: Date | string;
-		author: string;
-		tags?: string[];
-	};
-	category: string;
+  frontmatter: {
+    title: string;
+    description: string;
+    pubDate: Date | string;
+    author: string;
+    tags?: string[];
+  };
+  category: string;
 }
 
 const { frontmatter, category } = Astro.props;
 const meta = categoryMeta(category);
-const publishedAt = new Intl.DateTimeFormat('es-CL', {
-	day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC',
+const publishedAt = new Intl.DateTimeFormat("es-CL", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+  timeZone: "UTC",
 }).format(new Date(frontmatter.pubDate));
 ---
 
 <!doctype html>
 <html lang="es" data-blog={category}>
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="description" content={frontmatter.description} />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<title>{frontmatter.title} | {meta.brand}</title>
-		<script is:inline>
-			(() => { try { const saved = localStorage.getItem("theme"); document.documentElement.dataset.theme = saved || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); } catch { document.documentElement.dataset.theme = "light"; } })();
-		</script>
-	</head>
-	<body>
-		<header class="site-header">
-			<a class="brand" href={`/${category}`}>{meta.brand}</a>
-			<div class="header-actions">
-				<a class="back-link" href={`/${category}`}>Todos los artículos</a>
-				<ThemeToggle />
-			</div>
-		</header>
-		<main class="article-shell">
-			<article>
-				<header class="article-header">
-					<p class="eyebrow">{meta.label}</p>
-					<h1>{frontmatter.title}</h1>
-					<p class="article-description">{frontmatter.description}</p>
-					<p class="article-meta">Por {frontmatter.author} · {publishedAt}</p>
-					{frontmatter.tags && (
-						<ul class="tags" aria-label="Temas">
-							{frontmatter.tags.map((tag) => <li>{tag}</li>)}
-						</ul>
-					)}
-				</header>
-				<div class="article-content"><slot /></div>
-			</article>
-		</main>
-		<footer class="site-footer">
-			<p>Contenido educativo.{meta.footerDisclaimer ? ` ${meta.footerDisclaimer}` : ''}</p>
-		</footer>
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={frontmatter.description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{frontmatter.title} | {meta.brand}</title>
+    <script is:inline>
+      (() => {
+        try {
+          const saved = localStorage.getItem("theme");
+          document.documentElement.dataset.theme =
+            saved ||
+            (matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light");
+        } catch {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href={`/${category}`}>{meta.brand}</a>
+      <div class="header-actions">
+        <ThemeToggle />
+      </div>
+    </header>
+    <main class="article-shell">
+      <article>
+        <header class="article-header">
+          <p class="eyebrow">{meta.label}</p>
+          <h1>{frontmatter.title}</h1>
+          <p class="article-description">{frontmatter.description}</p>
+          <p class="article-meta">Por {frontmatter.author} · {publishedAt}</p>
+          {
+            frontmatter.tags && (
+              <ul class="tags" aria-label="Temas">
+                {frontmatter.tags.map((tag) => (
+                  <li>{tag}</li>
+                ))}
+              </ul>
+            )
+          }
+        </header>
+        <div class="article-content"><slot /></div>
+      </article>
+    </main>
+    <footer class="site-footer">
+      <p>
+        Contenido educativo.{
+          meta.footerDisclaimer ? ` ${meta.footerDisclaimer}` : ""
+        }
+      </p>
+    </footer>
+  </body>
 </html>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" aria-label="bits and balance" role="img" viewBox="0 0 64 64">
+  <text x="5" y="47" font-family="Georgia, 'Times New Roman', serif" font-size="46"
+    font-weight="700" style="fill:#b7bac2">b</text>
+  <text x="28" y="52" font-family="Georgia, 'Times New Roman', serif" font-size="42"
+    font-weight="700" style="fill:#737782">b</text>
+  <text x="26" y="38" stroke-width="3" font-family="Georgia, 'Times New Roman', serif"
+    font-size="16" font-weight="700" paint-order="stroke" style="fill:#25272d;stroke:#fff">&amp;</text>
+</svg>

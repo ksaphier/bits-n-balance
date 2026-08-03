@@ -1,107 +1,225 @@
 ---
-import '../../styles/global.css';
-import ThemeToggle from '../../components/ThemeToggle.astro';
-import { getCollection } from 'astro:content';
-import { categoryMeta } from '../../lib/categories';
+import "../../styles/global.css";
+import ThemeToggle from "../../components/ThemeToggle.astro";
+import { getCollection } from "astro:content";
+import { categoryMeta } from "../../lib/categories";
 
 export async function getStaticPaths() {
-	const allPosts = await getCollection('posts');
-	const categories = [...new Set(allPosts.map((post) => post.id.split('/')[0]))];
-	return categories.map((category) => ({ params: { category } }));
+  const allPosts = await getCollection("posts");
+  const categories = [
+    ...new Set(allPosts.map((post) => post.id.split("/")[0])),
+  ];
+  return categories.map((category) => ({ params: { category } }));
 }
 
 const { category } = Astro.params;
 const meta = categoryMeta(category!);
 
-const allPosts = await getCollection('posts');
+const allPosts = await getCollection("posts");
 const posts = allPosts
-	.filter((post) => post.id.split('/')[0] === category)
-	.map((post) => ({ ...post.data, href: `/${post.id}` }))
-	.sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime());
+  .filter((post) => post.id.split("/")[0] === category)
+  .map((post) => ({ ...post.data, href: `/${post.id}` }))
+  .sort(
+    (a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime(),
+  );
 
-const formatDate = (date: Date | string) => new Intl.DateTimeFormat('es-CL', {
-	day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC',
-}).format(new Date(date));
+const formatDate = (date: Date | string) =>
+  new Intl.DateTimeFormat("es-CL", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(date));
 ---
 
 <!doctype html>
 <html lang="es" data-blog={category}>
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="description" content={meta.metaDescription} />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<title>{meta.brand}</title>
-		<script is:inline>
-			(() => { try { const saved = localStorage.getItem("theme"); document.documentElement.dataset.theme = saved || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); } catch { document.documentElement.dataset.theme = "light"; } })();
-		</script>
-	</head>
-	<body>
-		<header class="site-header home-nav">
-			<a class="brand" href={`/${category}`}>{meta.brand}</a>
-			<div class="header-actions">
-				<a class="back-link" href="/">Todos los blogs</a>
-				<span>{meta.tagline}</span>
-				<ThemeToggle />
-			</div>
-		</header>
-		<main class="home-shell">
-			<section class="hero">
-				<p class="eyebrow">{meta.eyebrow}</p>
-				<h1 set:html={meta.heroTitleHtml} />
-				<p>{meta.heroSubtitle}</p>
-			</section>
-			<section class="articles" aria-labelledby="articles-title">
-				<div class="section-heading">
-					<h2 id="articles-title">Lecturas disponibles</h2>
-					<span>{posts.length} {posts.length === 1 ? 'artículo' : 'artículos'}</span>
-				</div>
-				<div class="post-grid">
-					{posts.map((post, index) => (
-						<a class="post-card" href={post.href}>
-							<div class="post-number">{String(index + 1).padStart(2, '0')}</div>
-							<div>
-								<p class="post-date">{formatDate(post.pubDate)}</p>
-								<h3>{post.title}</h3>
-								<p>{post.description}</p>
-								<span class="read-more">Leer artículo <span aria-hidden="true">→</span></span>
-							</div>
-						</a>
-					))}
-				</div>
-			</section>
-		</main>
-		<footer class="site-footer">
-			<p>Contenido educativo.{meta.footerDisclaimer ? ` ${meta.footerDisclaimer}` : ''}</p>
-		</footer>
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={meta.metaDescription} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{meta.brand}</title>
+    <script is:inline>
+      (() => {
+        try {
+          const saved = localStorage.getItem("theme");
+          document.documentElement.dataset.theme =
+            saved ||
+            (matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light");
+        } catch {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="site-header home-nav">
+      <a class="back-link" href="/">
+        <img src="/logo.svg" alt="" width="44" height="44" />
+      </a>
+      <a class="brand" href={`/${category}`}>{meta.brand}</a>
+      <div class="header-actions">
+        <ThemeToggle />
+      </div>
+    </header>
+    <main class="home-shell">
+      <section class="hero">
+        <p class="eyebrow">{meta.eyebrow}</p>
+        <h1 set:html={meta.heroTitleHtml} />
+        <p>{meta.heroSubtitle}</p>
+      </section>
+      <section class="articles" aria-labelledby="articles-title">
+        <div class="section-heading">
+          <h2 id="articles-title">Lecturas disponibles</h2>
+          <span
+            >{posts.length}
+            {posts.length === 1 ? "artículo" : "artículos"}</span
+          >
+        </div>
+        <div class="post-grid">
+          {
+            posts.map((post, index) => (
+              <a class="post-card" href={post.href}>
+                <div class="post-number">
+                  {String(index + 1).padStart(2, "0")}
+                </div>
+                <div>
+                  <p class="post-date">{formatDate(post.pubDate)}</p>
+                  <h3>{post.title}</h3>
+                  <p>{post.description}</p>
+                  <span class="read-more">
+                    Leer artículo <span aria-hidden="true">→</span>
+                  </span>
+                </div>
+              </a>
+            ))
+          }
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <p>
+        Contenido educativo.{
+          meta.footerDisclaimer ? ` ${meta.footerDisclaimer}` : ""
+        }
+      </p>
+    </footer>
+  </body>
 </html>
 
 <style>
-	.home-nav span { color: var(--text-muted); font-size: 0.85rem; }
-	.home-nav .back-link { font-size: 0.85rem; }
-	.home-shell { width: min(100% - 2rem, 1160px); margin: 0 auto; }
-	.hero { padding: 4.5rem 0; border-bottom: 1px solid var(--border-soft); }
-	.hero h1 { max-width: 900px; margin: 0; overflow-wrap: anywhere; font-family: var(--font-heading); font-size: clamp(3rem, 16vw, 8.6rem); line-height: 0.86; letter-spacing: -0.07em; }
-	.hero > p:last-child { max-width: 600px; margin: 2.3rem 0 0 auto; color: var(--text-secondary); font-size: 1.15rem; }
-	.articles { padding: 5rem 0 7rem; }
-	.section-heading { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 2rem; }
-	.section-heading h2 { margin: 0; font-size: 1.1rem; }
-	.section-heading span { color: var(--text-subtle); font-size: 0.85rem; }
-	.post-grid { display: grid; grid-template-columns: minmax(0, 1fr); border-top: 1px solid var(--border); }
-	.post-card { display: grid; grid-template-columns: 3rem 1fr; gap: 1rem; padding: 2.2rem 2rem 2.4rem 0; border-bottom: 1px solid var(--border); text-decoration: none; transition: background-color 160ms ease; }
-	.post-card > div:last-child { min-width: 0; }
-	.post-card:hover { background: var(--surface-hover); }
-	.post-number, .post-date { color: var(--text-subtle); font-size: 0.75rem; }
-	.post-date { margin: 0 0 0.8rem; text-transform: uppercase; }
-	.post-card h3 { margin: 0 0 0.8rem; font-family: var(--font-heading); font-size: 2rem; line-height: 1.08; }
-	.post-card p:not(.post-date) { margin: 0; color: var(--text-secondary); font-size: 0.92rem; }
-	.read-more { display: inline-block; margin-top: 1.4rem; color: var(--accent); font-size: 0.86rem; font-weight: 700; }
-	@media (min-width: 721px) {
-		.home-shell { width: min(100% - 3rem, 1160px); }
-		.hero { padding: var(--hero-padding); }
-		.post-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-		.post-card:nth-child(odd) { border-right: 1px solid var(--border); }
-		.post-card:nth-child(even) { padding-left: 2rem; }
-	}
+  .home-nav span {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+  }
+  .home-nav .back-link {
+    font-size: 0.85rem;
+  }
+  .home-shell {
+    width: min(100% - 2rem, 1160px);
+    margin: 0 auto;
+  }
+  .hero {
+    padding: 4.5rem 0;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .hero h1 {
+    max-width: 900px;
+    margin: 0;
+    overflow-wrap: anywhere;
+    font-family: var(--font-heading);
+    font-size: clamp(3rem, 16vw, 8.6rem);
+    line-height: 0.86;
+    letter-spacing: -0.07em;
+  }
+  .hero > p:last-child {
+    max-width: 600px;
+    margin: 2.3rem 0 0 auto;
+    color: var(--text-secondary);
+    font-size: 1.15rem;
+  }
+  .articles {
+    padding: 5rem 0 7rem;
+  }
+  .section-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+  .section-heading h2 {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+  .section-heading span {
+    color: var(--text-subtle);
+    font-size: 0.85rem;
+  }
+  .post-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    border-top: 1px solid var(--border);
+  }
+  .post-card {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: 1rem;
+    padding: 2.2rem 2rem 2.4rem 0;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    transition: background-color 160ms ease;
+  }
+  .post-card > div:last-child {
+    min-width: 0;
+  }
+  .post-card:hover {
+    background: var(--surface-hover);
+  }
+  .post-number,
+  .post-date {
+    color: var(--text-subtle);
+    font-size: 0.75rem;
+  }
+  .post-date {
+    margin: 0 0 0.8rem;
+    text-transform: uppercase;
+  }
+  .post-card h3 {
+    margin: 0 0 0.8rem;
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    line-height: 1.08;
+  }
+  .post-card p:not(.post-date) {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+  }
+  .read-more {
+    display: inline-block;
+    margin-top: 1.4rem;
+    color: var(--accent);
+    font-size: 0.86rem;
+    font-weight: 700;
+  }
+  @media (min-width: 721px) {
+    .home-shell {
+      width: min(100% - 3rem, 1160px);
+    }
+    .hero {
+      padding: var(--hero-padding);
+    }
+    .post-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .post-card:nth-child(odd) {
+      border-right: 1px solid var(--border);
+    }
+    .post-card:nth-child(even) {
+      padding-left: 2rem;
+    }
+  }
 </style>

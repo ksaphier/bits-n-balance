@@ -1,79 +1,180 @@
 ---
-import '../styles/global.css';
-import ThemeToggle from '../components/ThemeToggle.astro';
-import { getCollection } from 'astro:content';
-import { categoryMeta } from '../lib/categories';
+import "../styles/global.css";
+import ThemeToggle from "../components/ThemeToggle.astro";
+import { getCollection } from "astro:content";
+import { categoryMeta } from "../lib/categories";
 
-const allPosts = await getCollection('posts');
+const allPosts = await getCollection("posts");
 
 const counts = new Map<string, number>();
 for (const post of allPosts) {
-	const category = post.id.split('/')[0];
-	counts.set(category, (counts.get(category) ?? 0) + 1);
+  const category = post.id.split("/")[0];
+  counts.set(category, (counts.get(category) ?? 0) + 1);
 }
 
 const blogs = [...counts.entries()]
-	.map(([category, count]) => ({ category, count, meta: categoryMeta(category) }))
-	.sort((a, b) => a.meta.label.localeCompare(b.meta.label));
+  .map(([category, count]) => ({
+    category,
+    count,
+    meta: categoryMeta(category),
+  }))
+  .sort((a, b) => a.meta.label.localeCompare(b.meta.label));
 ---
 
 <!doctype html>
 <html lang="es">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="description" content="bits-n-balance: varios blogs temáticos, un mismo formato de guías claras y directas." />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<title>bits-n-balance</title>
-		<script is:inline>
-			(() => { try { const saved = localStorage.getItem("theme"); document.documentElement.dataset.theme = saved || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); } catch { document.documentElement.dataset.theme = "light"; } })();
-		</script>
-	</head>
-	<body>
-		<header class="site-header home-nav">
-			<a class="brand" href="/">bits & balance</a>
-			<div class="header-actions">
-				<span>Varios temas, una misma idea</span>
-				<ThemeToggle />
-			</div>
-		</header>
-		<main class="home-shell">
-			<section class="hero">
-				<p class="eyebrow">bits & balance</p>
-				<h1>Elige un<br />tema.</h1>
-				<p>Un mismo formato de guías claras y directas, aplicado a distintos temas. Cada uno es su propio blog.</p>
-			</section>
-			<section class="blogs">
-				<div class="blog-grid">
-					{blogs.map(({ category, count, meta }) => (
-						<a class="blog-card" href={`/${category}`}>
-							<h2>{meta.label}</h2>
-							<p>{meta.metaDescription}</p>
-							<span class="read-more">{count} {count === 1 ? 'artículo' : 'artículos'} <span aria-hidden="true">→</span></span>
-						</a>
-					))}
-				</div>
-			</section>
-		</main>
-		<footer class="site-footer"><p>Contenido educativo.</p></footer>
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta
+      name="description"
+      content="bits-n-balance: varios blogs temáticos, un mismo formato de guías claras y directas."
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>bits-n-balance</title>
+    <script is:inline>
+      (() => {
+        try {
+          const saved = localStorage.getItem("theme");
+          document.documentElement.dataset.theme =
+            saved ||
+            (matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light");
+        } catch {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="site-header home-nav">
+      <a class="brand brand-home" href="/" aria-label="bits & balance">
+        <img src="/logo.svg" alt="" width="44" height="44" />
+        <span>bits & balance</span>
+      </a>
+      <div class="header-actions">
+        <!-- <span>Varios temas, una misma idea</span> -->
+        <ThemeToggle />
+      </div>
+    </header>
+    <main class="home-shell">
+      <section class="hero">
+        <p class="eyebrow">bits & balance</p>
+        <h1>Elige un<br />tema.</h1>
+        <p>
+          Un mismo formato de guías claras y directas, aplicado a distintos
+          temas. Cada uno es su propio blog.
+        </p>
+      </section>
+      <section class="blogs">
+        <div class="blog-grid">
+          {
+            blogs.map(({ category, count, meta }) => (
+              <a class="blog-card" href={`/${category}`}>
+                <h2>{meta.label}</h2>
+                <p>{meta.metaDescription}</p>
+                <span class="read-more">
+                  {count} {count === 1 ? "artículo" : "artículos"}{" "}
+                  <span aria-hidden="true">→</span>
+                </span>
+              </a>
+            ))
+          }
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer"><p>Contenido educativo.</p></footer>
+  </body>
 </html>
 
 <style>
-	.home-nav span { color: var(--text-muted); font-size: 0.85rem; }
-	.home-shell { width: min(100% - 2rem, 1160px); margin: 0 auto; }
-	.hero { padding: 4.5rem 0; border-bottom: 1px solid var(--border-soft); }
-	.hero h1 { max-width: 900px; margin: 0; overflow-wrap: anywhere; font-family: var(--font-heading); font-size: clamp(3rem, 16vw, 8.6rem); line-height: 0.86; letter-spacing: -0.07em; }
-	.hero > p:last-child { max-width: 600px; margin: 2.3rem 0 0 auto; color: var(--text-secondary); font-size: 1.15rem; }
-	.blogs { padding: 5rem 0 7rem; }
-	.blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 1.5rem; }
-	.blog-card { display: block; padding: 2rem; border: 1px solid var(--border); border-radius: var(--radius-card); text-decoration: none; transition: background-color 160ms ease, border-color 160ms ease; }
-	.blog-card:hover { background: var(--surface-hover); border-color: var(--text-subtle); }
-	.blog-card h2 { margin: 0 0 0.8rem; font-family: var(--font-heading); font-size: 2rem; line-height: 1.08; }
-	.blog-card p { margin: 0; color: var(--text-secondary); font-size: 0.92rem; }
-	.blog-card .read-more { display: inline-block; margin-top: 1.4rem; color: var(--accent); font-size: 0.86rem; font-weight: 700; }
-	@media (min-width: 721px) {
-		.home-shell { width: min(100% - 3rem, 1160px); }
-		.hero { padding: var(--hero-padding); }
-	}
+  .brand-home {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+  .brand-home img {
+    display: block;
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+  .brand-home span {
+    font-size: 0.95rem;
+  }
+  .home-nav span {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+  }
+  .home-shell {
+    width: min(100% - 2rem, 1160px);
+    margin: 0 auto;
+  }
+  .hero {
+    padding: 4.5rem 0;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .hero h1 {
+    max-width: 900px;
+    margin: 0;
+    overflow-wrap: anywhere;
+    font-family: var(--font-heading);
+    font-size: clamp(3rem, 16vw, 8.6rem);
+    line-height: 0.86;
+    letter-spacing: -0.07em;
+  }
+  .hero > p:last-child {
+    max-width: 600px;
+    margin: 2.3rem 0 0 auto;
+    color: var(--text-secondary);
+    font-size: 1.15rem;
+  }
+  .blogs {
+    padding: 5rem 0 7rem;
+  }
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: 1.5rem;
+  }
+  .blog-card {
+    display: block;
+    padding: 2rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    text-decoration: none;
+    transition:
+      background-color 160ms ease,
+      border-color 160ms ease;
+  }
+  .blog-card:hover {
+    background: var(--surface-hover);
+    border-color: var(--text-subtle);
+  }
+  .blog-card h2 {
+    margin: 0 0 0.8rem;
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    line-height: 1.08;
+  }
+  .blog-card p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+  }
+  .blog-card .read-more {
+    display: inline-block;
+    margin-top: 1.4rem;
+    color: var(--accent);
+    font-size: 0.86rem;
+    font-weight: 700;
+  }
+  @media (min-width: 721px) {
+    .home-shell {
+      width: min(100% - 3rem, 1160px);
+    }
+    .hero {
+      padding: var(--hero-padding);
+    }
+  }
 </style>
