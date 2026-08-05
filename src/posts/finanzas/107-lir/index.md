@@ -1,12 +1,9 @@
 ---
 title: "¿Qué es el 107 LIR? El beneficio tributario que cambia en 2027"
 description: "Explicación sencilla del artículo 107 de la Ley sobre Impuesto a la Renta y cómo cambia la tributación de algunas inversiones desde enero de 2027."
-date: 2026-08-05
-tags:
-  - inversiones
-  - impuestos
-  - chile
-  - racional
+pubDate: 2026-08-05
+author: "Maximiliano"
+tags: ["inversiones", "impuestos", "chile", "racional"]
 ---
 
 # ¿Qué es el 107 LIR? El beneficio tributario que cambia en 2027
