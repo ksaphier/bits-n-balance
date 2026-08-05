@@ -120,18 +120,6 @@ Un beneficio tributario puede mejorar el resultado final, pero no convierte auto
 
 ---
 
-## Mi opinión
-
-Cuando comencé a invertir, pensé que el beneficio del 107 LIR era simplemente un detalle administrativo.
-
-Sin embargo, al entender cómo funciona, me di cuenta de que puede marcar una diferencia importante para quienes mantienen inversiones durante varios años.
-
-En mi caso tengo un portafolio destinado al ahorro para una futura vivienda que está acogido al **107 LIR**, por lo que este cambio representa una buena noticia.
-
-De todas formas, sigo considerando que la estrategia de inversión debe elegirse primero por sus objetivos y nivel de riesgo, y solo después mirar el tratamiento tributario.
-
----
-
 ## Resumen
 
 - El **107 LIR** es un régimen tributario especial para ciertos instrumentos de inversión en Chile.
